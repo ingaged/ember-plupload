@@ -14,7 +14,25 @@ export default Ember.Service.extend({
     accessed by name via the `find` method.
    */
   init() {
-    set(this, 'queues', Ember.Map.create());
+
+    //this replaces Ember.map, which has been removed
+    function map () {
+      this.data = {};
+
+      this.set = (name, object) => {
+        this.data[name] = object;
+      }
+
+      this.get = (name) => {
+        return this.data[name];
+      }
+
+      this.has = (name) => {
+        return typeof this.data[name] !== 'undefined';
+      }
+    }
+
+    set(this, 'queues', new map());
     set(this, 'all', Ember.A());
   },
 
